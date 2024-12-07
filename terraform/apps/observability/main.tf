@@ -12,3 +12,11 @@ module "elastic_stack" {
   }
   network_name = module.docker_network.name
 }
+
+module "grafana_stack" {
+  source = "../../modules/grafana-stack"
+  providers = {
+    docker = docker
+  }
+  network_name = module.docker_network.name
+}

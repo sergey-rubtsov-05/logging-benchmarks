@@ -7,7 +7,8 @@ terraform {
 }
 
 resource "docker_image" "elasticsearch" {
-  name = "elasticsearch:8.16.1"
+  name         = "elasticsearch:8.16.1"
+  keep_locally = true
 }
 
 resource "docker_volume" "elasticsearch_data" {
@@ -36,7 +37,8 @@ resource "docker_container" "elasticsearch" {
 }
 
 resource "docker_image" "kibana" {
-  name = "kibana:8.16.1"
+  name         = "kibana:8.16.1"
+  keep_locally = true
 }
 
 resource "docker_container" "kibana" {
