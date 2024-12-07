@@ -1,0 +1,6 @@
+@LoggingBenchmark.WebApp_HostAddress = http://localhost:5287
+
+GET {{LoggingBenchmark.WebApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
