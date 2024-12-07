@@ -12,12 +12,12 @@ resource "docker_image" "elasticsearch" {
 }
 
 resource "docker_volume" "elasticsearch_data" {
-  name = "elasticsearch-data"
+  name = "${var.name_prefix}elasticsearch-data"
 }
 
 resource "docker_container" "elasticsearch" {
   image = docker_image.elasticsearch.name
-  name  = "elasticsearch"
+  name  = "${var.name_prefix}elasticsearch"
 
   env = [
     "discovery.type=single-node",
@@ -43,10 +43,10 @@ resource "docker_image" "kibana" {
 
 resource "docker_container" "kibana" {
   image = docker_image.kibana.name
-  name  = "kibana"
+  name  = "${var.name_prefix}kibana"
 
   env = [
-    "ELASTICSEARCH_HOSTS=http://elasticsearch:9200"
+    "ELASTICSEARCH_HOSTS=http://${var.name_prefix}elasticsearch:9200"
   ]
 
   networks_advanced {

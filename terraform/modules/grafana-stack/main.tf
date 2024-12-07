@@ -12,12 +12,12 @@ resource "docker_image" "prometheus" {
 }
 
 resource "docker_volume" "prometheus_data" {
-  name = "prometheus-data"
+  name = "${var.name_prefix}prometheus-data"
 }
 
 resource "docker_container" "prometheus" {
   image = docker_image.prometheus.name
-  name  = "prometheus"
+  name  = "${var.name_prefix}prometheus"
 
   networks_advanced {
     name = var.network_name
@@ -44,13 +44,20 @@ resource "docker_image" "grafana" {
   keep_locally = true
 }
 
+resource "local_file" "grafana_prometheis_datasource" {
+  filename = "${path.module}/configs/grafana-datasources/prometheus.yml"
+  content  = templatefile("${path.module}/templates/grafana-datasources.yml.tpl", {
+    name_prefix = var.name_prefix,
+  })
+}
+
 resource "docker_volume" "grafana_data" {
-  name = "grafana-data"
+  name = "${var.name_prefix}grafana-data"
 }
 
 resource "docker_container" "grafana" {
   image = docker_image.grafana.name
-  name  = "grafana"
+  name  = "${var.name_prefix}grafana"
 
   networks_advanced {
     name = var.network_name

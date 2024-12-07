@@ -11,6 +11,7 @@ module "elastic_stack" {
     docker = docker
   }
   network_name = module.docker_network.name
+  name_prefix = var.name_prefix
 }
 
 module "grafana_stack" {
@@ -19,4 +20,5 @@ module "grafana_stack" {
     docker = docker
   }
   network_name = module.docker_network.name
+  name_prefix = var.name_prefix
 }
