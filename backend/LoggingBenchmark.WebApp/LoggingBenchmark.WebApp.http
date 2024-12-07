@@ -1,6 +1,7 @@
-@LoggingBenchmark.WebApp_HostAddress = http://localhost:5287
+@HostAddress = http://localhost:5287
+@projectId = 1234
 
-GET {{LoggingBenchmark.WebApp_HostAddress}}/weatherforecast/
+GET {{HostAddress}}/project/{{projectId}}
 Accept: application/json
 
 ###
