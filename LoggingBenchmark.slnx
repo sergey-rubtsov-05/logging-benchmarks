@@ -1,9 +1,9 @@
 <Solution>
   <Folder Name="/backend/">
-    <Project Path="backend\LoggingBenchmark.Aspire.AppHost\LoggingBenchmark.Aspire.AppHost.csproj" />
-    <Project Path="backend\LoggingBenchmark.WebApp\LoggingBenchmark.WebApp.csproj" />
+    <Project Path="backend\LoggingBenchmark.Aspire.AppHost\LoggingBenchmark.Aspire.AppHost.csproj"/>
+    <Project Path="backend\LoggingBenchmark.WebApp\LoggingBenchmark.WebApp.csproj"/>
   </Folder>
   <Folder Name="/Solution Items/">
-    <File Path=".editorconfig" />
+    <File Path=".editorconfig"/>
   </Folder>
 </Solution>
