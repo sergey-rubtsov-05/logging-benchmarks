@@ -7,16 +7,17 @@ terraform {
 }
 
 resource "docker_image" "elasticsearch" {
-  name = "elasticsearch:8.16.1"
+  name         = "elasticsearch:8.16.1"
+  keep_locally = true
 }
 
 resource "docker_volume" "elasticsearch_data" {
-  name = "elasticsearch-data"
+  name = "${var.name_prefix}elasticsearch-data"
 }
 
 resource "docker_container" "elasticsearch" {
   image = docker_image.elasticsearch.name
-  name  = "elasticsearch"
+  name  = "${var.name_prefix}elasticsearch"
 
   env = [
     "discovery.type=single-node",
@@ -36,15 +37,16 @@ resource "docker_container" "elasticsearch" {
 }
 
 resource "docker_image" "kibana" {
-  name = "kibana:8.16.1"
+  name         = "kibana:8.16.1"
+  keep_locally = true
 }
 
 resource "docker_container" "kibana" {
   image = docker_image.kibana.name
-  name  = "kibana"
+  name  = "${var.name_prefix}kibana"
 
   env = [
-    "ELASTICSEARCH_HOSTS=http://elasticsearch:9200"
+    "ELASTICSEARCH_HOSTS=http://${var.name_prefix}elasticsearch:9200"
   ]
 
   networks_advanced {
