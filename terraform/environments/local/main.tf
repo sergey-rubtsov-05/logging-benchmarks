@@ -35,3 +35,12 @@ module "postgresql" {
   network_name = module.docker_network.name
   name_prefix = local.name_prefix
 }
+
+module "otel_collector" {
+  source = "../../modules/otel-collector"
+  providers = {
+    docker = docker
+  }
+  network_name = module.docker_network.name
+  name_prefix = local.name_prefix
+}
