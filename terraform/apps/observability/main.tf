@@ -22,3 +22,12 @@ module "grafana_stack" {
   network_name = module.docker_network.name
   name_prefix = var.name_prefix
 }
+
+module "postgresql" {
+  source = "../../modules/postgresql"
+  providers = {
+    docker = docker
+  }
+  network_name = module.docker_network.name
+  name_prefix = var.name_prefix
+}
