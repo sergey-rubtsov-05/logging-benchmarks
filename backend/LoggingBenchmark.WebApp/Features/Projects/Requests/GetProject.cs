@@ -12,11 +12,9 @@ public class GetProject
         public void MapEndpoint(IEndpointRouteBuilder builder)
         {
             builder.MapGet("/project/{projectId}",
-                Task<Ok<ProjectModel>> (ulong projectId, ILoggerFactory loggerFactory, IdGenerator idGenerator,
+                Task<Ok<ProjectModel>> (ulong projectId, ILogger<GetProject> logger, IdGenerator idGenerator,
                     CancellationToken cancellationToken) =>
                 {
-                    var logger = loggerFactory.CreateLogger<GetProject>();
-
                     logger.LogInformation("Request project {projectId}", projectId);
 
                     var project = new Project { Id = idGenerator.CreateId(), Name = "Sample Project" };
