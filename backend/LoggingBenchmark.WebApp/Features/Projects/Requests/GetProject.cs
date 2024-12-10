@@ -19,7 +19,7 @@ public class GetProject
 
                     var project = new Project { Id = idGenerator.CreateId(), Name = "Sample Project" };
 
-                    var projectModel = new ProjectModel { Id = project.Id, Name = project.Name };
+                    var projectModel = new ProjectModel(project.Id, project.Name);
 
                     return Task.FromResult(TypedResults.Ok(projectModel));
                 });
