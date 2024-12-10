@@ -1,0 +1,7 @@
+@HostAddress = http://localhost:5287
+@projectId = 1234
+
+GET {{HostAddress}}/project/{{projectId}}
+Accept: application/json
+
+###
