@@ -1,7 +1,7 @@
-using IdGen;
-using LoggingBenchmark.WebApp.Domain;
+using LoggingBenchmark.WebApp.Database;
 using LoggingBenchmark.WebApp.Features.Projects.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 
 namespace LoggingBenchmark.WebApp.Features.Projects.Requests;
 
@@ -11,18 +11,24 @@ public class GetProject
     {
         public void MapEndpoint(IEndpointRouteBuilder builder)
         {
-            builder.MapGet("/project/{projectId}",
-                Task<Ok<ProjectModel>> (ulong projectId, ILogger<GetProject> logger, IdGenerator idGenerator,
-                    CancellationToken cancellationToken) =>
-                {
-                    logger.LogInformation("Request project {projectId}", projectId);
+            builder.MapGet("/projects/{projectId:long}", async Task<Results<Ok<ProjectModel>, NotFound>> (
+                long projectId,
+                ILogger<GetProject> logger,
+                WebAppDbContext dbContext,
+                CancellationToken cancellationToken) =>
+            {
+                logger.LogInformation("Request project {projectId}", projectId);
 
-                    var project = new Project { Id = idGenerator.CreateId(), Name = "Sample Project" };
+                var project = await dbContext.Projects
+                    .SingleOrDefaultAsync(o => o.Id == projectId, cancellationToken);
 
-                    var projectModel = new ProjectModel(project.Id, project.Name);
+                if (project == null)
+                    return TypedResults.NotFound();
 
-                    return Task.FromResult(TypedResults.Ok(projectModel));
-                });
+                var projectModel = new ProjectModel(project.Id, project.Name);
+
+                return TypedResults.Ok(projectModel);
+            });
         }
     }
 }
