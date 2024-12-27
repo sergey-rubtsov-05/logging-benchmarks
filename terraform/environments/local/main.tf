@@ -44,3 +44,12 @@ module "otel_collector" {
   network_name = module.docker_network.name
   name_prefix = local.name_prefix
 }
+
+module "node-exporter" {
+  source = "../../modules/node-exporter"
+  providers = {
+    docker = docker
+  }
+  network_name = module.docker_network.name
+  name_prefix = local.name_prefix
+}
