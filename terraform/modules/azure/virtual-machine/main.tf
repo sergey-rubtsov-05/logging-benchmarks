@@ -22,7 +22,8 @@ resource "azurerm_network_interface" "network_interface" {
   ip_configuration {
     name                          = "${var.name}-network-interface-configuration"
     subnet_id                     = var.subnet_id
-    private_ip_address_allocation = "Dynamic"
+    private_ip_address_allocation = "Static"
+    private_ip_address            = var.private_ip
     public_ip_address_id          = azurerm_public_ip.public_ip.id
   }
 }
