@@ -6,6 +6,25 @@ terraform {
   }
 }
 
+resource "local_file" "prometheus_config" {
+  filename = abspath("${path.module}/configs/prometheus.yml")
+  content  = <<EOT
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+${join(",\n", [for target in var.prometheus_targets : <<EOL
+  - job_name: "${target.job_name}"
+    scrape_interval: "${lookup(target, "scrape_interval", "15s")}"
+    static_configs:
+      - targets:
+${join("\n", [for t in target.targets : "          - \"${t}\""])}
+EOL
+])}
+EOT
+}
+
 resource "docker_image" "prometheus" {
   name         = "prom/prometheus:v3.0.1"
   keep_locally = true
@@ -34,7 +53,7 @@ resource "docker_container" "prometheus" {
   }
 
   volumes {
-    host_path      = abspath("${path.module}/configs/prometheus.yml")
+    host_path      = local_file.prometheus_config.filename
     container_path = "/etc/prometheus/prometheus.yml"
   }
 

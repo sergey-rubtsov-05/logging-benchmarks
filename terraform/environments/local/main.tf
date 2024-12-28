@@ -18,15 +18,6 @@ module "elastic_stack" {
   name_prefix = local.name_prefix
 }
 
-module "grafana_stack" {
-  source = "../../modules/grafana-stack"
-  providers = {
-    docker = docker
-  }
-  network_name = module.docker_network.name
-  name_prefix = local.name_prefix
-}
-
 module "postgresql" {
   source = "../../modules/postgresql"
   providers = {
@@ -52,6 +43,19 @@ module "node-exporter" {
   }
   network_name = module.docker_network.name
   name_prefix = local.name_prefix
+}
+
+module "grafana_stack" {
+  source = "../../modules/grafana-stack"
+  providers = {
+    docker = docker
+  }
+  network_name = module.docker_network.name
+  name_prefix = local.name_prefix
+  prometheus_targets = [{
+    job_name = "node-exporter"
+    targets = ["${module.node-exporter.host}:9100"]
+  }]
 }
 
 module "app" {
