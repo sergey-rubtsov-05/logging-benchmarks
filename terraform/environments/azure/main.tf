@@ -153,7 +153,7 @@ module "db_virtual_machine" {
   resource_group_name                   = azurerm_resource_group.resource_group.name
   subnet_id                             = azurerm_subnet.subnet.id
   private_ip                            = local.db_private_ip
-  network_security_group_id             = azurerm_network_security_group.app_network_security_group.id
+  network_security_group_id             = azurerm_network_security_group.db_network_security_group.id
   ssh_public_key                        = azapi_resource_action.ssh_public_key_gen.output.publicKey
   storage_account_primary_blob_endpoint = azurerm_storage_account.storage_account.primary_blob_endpoint
 }
@@ -238,7 +238,7 @@ module "telemetry_virtual_machine" {
   resource_group_name                   = azurerm_resource_group.resource_group.name
   subnet_id                             = azurerm_subnet.subnet.id
   private_ip                            = local.telemetry_private_ip
-  network_security_group_id             = azurerm_network_security_group.app_network_security_group.id
+  network_security_group_id             = azurerm_network_security_group.telemetry_network_security_group.id
   ssh_public_key                        = azapi_resource_action.ssh_public_key_gen.output.publicKey
   storage_account_primary_blob_endpoint = azurerm_storage_account.storage_account.primary_blob_endpoint
 }
@@ -275,7 +275,7 @@ module "k6_virtual_machine" {
   resource_group_name                   = azurerm_resource_group.resource_group.name
   subnet_id                             = azurerm_subnet.subnet.id
   private_ip                            = local.k6_private_ip
-  network_security_group_id             = azurerm_network_security_group.app_network_security_group.id
+  network_security_group_id             = azurerm_network_security_group.k6_network_security_group.id
   ssh_public_key                        = azapi_resource_action.ssh_public_key_gen.output.publicKey
   storage_account_primary_blob_endpoint = azurerm_storage_account.storage_account.primary_blob_endpoint
 }
