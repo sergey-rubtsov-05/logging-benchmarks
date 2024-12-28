@@ -32,4 +32,9 @@ resource "docker_container" "postgresql" {
     volume_name    = docker_volume.postgresql_data.name
     container_path = "/var/lib/postgresql/data"
   }
+
+  ports {
+    internal = 5432
+    external = 5432
+  }
 }
