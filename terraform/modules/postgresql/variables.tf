@@ -15,3 +15,7 @@ variable "password" {
   type    = string
   default = "dbpassword"
 }
+
+variable "external_port" {
+  type = number
+}
