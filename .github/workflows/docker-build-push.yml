@@ -18,7 +18,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ github.repository }}
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}
       -
         name: Login to DockerHub
         uses: docker/login-action@v3
