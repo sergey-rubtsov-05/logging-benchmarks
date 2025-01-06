@@ -5,3 +5,7 @@ output "user" {
 output "password" {
   value = var.password
 }
+
+output "host" {
+  value = docker_container.postgresql.name
+}

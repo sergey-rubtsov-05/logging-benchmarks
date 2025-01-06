@@ -34,6 +34,11 @@ resource "docker_container" "elasticsearch" {
     volume_name    = docker_volume.elasticsearch_data.name
     container_path = "/usr/share/elasticsearch/data"
   }
+
+  ports {
+    internal = 9200
+    external = 9200
+  }
 }
 
 resource "docker_image" "kibana" {

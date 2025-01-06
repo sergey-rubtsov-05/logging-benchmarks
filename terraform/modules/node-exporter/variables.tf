@@ -3,5 +3,5 @@ variable "network_name" {
 }
 
 variable "name_prefix" {
-  type    = string
+  type = string
 }
