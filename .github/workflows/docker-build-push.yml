@@ -8,7 +8,7 @@ on:
 
 env:
   DOCKERHUB_NAMESPACE: sergeyrubtsov
-  IMAGE_NAME: ${{ vars.DOCKERHUB_NAMESPACE }}/${{ github.event.repository.name }}
+  IMAGE_NAME: ${{ env.DOCKERHUB_NAMESPACE }}/${{ github.event.repository.name }}
 
 jobs:
   docker:
