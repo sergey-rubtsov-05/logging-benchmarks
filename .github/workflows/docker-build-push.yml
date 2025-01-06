@@ -7,14 +7,12 @@ on:
       - 'v*'
 
 env:
-  DOCKERHUB_NAMESPACE: sergeyrubtsov
-  IMAGE_NAME: ${{ env.DOCKERHUB_NAMESPACE }}/${{ github.event.repository.name }}
+  IMAGE_NAME: ${{ vars.DOCKERHUB_NAMESPACE }}/${{ github.event.repository.name }}
 
 jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "IMAGE_NAME=${{ env.IMAGE_NAME }}"
       -
         name: Checkout
         uses: actions/checkout@v4
