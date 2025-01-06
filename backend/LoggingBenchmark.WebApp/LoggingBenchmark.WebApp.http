@@ -1,7 +1,30 @@
 @HostAddress = http://localhost:5287
-@projectId = 1234
 
-GET {{HostAddress}}/project/{{projectId}}
+POST {{HostAddress}}/projects/
+Content-Type: application/json
+
+{
+  "Name": "new-project-{{$random.uuid}}"
+}
+
+> {%
+    client.global.set("projectId", BigInt(response.body.id));
+%}
+
+###
+
+DELETE {{HostAddress}}/projects/{{projectId}}
+
+###
+
+GET {{HostAddress}}/projects/{{projectId}}
 Accept: application/json
 
 ###
+
+PATCH {{HostAddress}}/projects/{{projectId}}
+Content-Type: application/json
+
+{
+  "Name": "update-project-{{$random.uuid}}"
+}
