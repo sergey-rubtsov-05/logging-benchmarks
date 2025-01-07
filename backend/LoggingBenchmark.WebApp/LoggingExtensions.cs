@@ -20,6 +20,8 @@ public static class LoggingExtensions
             case BenchmarkType.ElasticsearchHttpClient:
                 builder.AddElasticsearchHttpClientLogging();
                 break;
+            case BenchmarkType.NoLogging:
+                break;
         }
 
         builder.UseOtlpExporterIfAspire();
@@ -54,5 +56,6 @@ public static class LoggingExtensions
 public enum BenchmarkType
 {
     OtelConsole = 1,
-    ElasticsearchHttpClient = 2
+    ElasticsearchHttpClient = 2,
+    NoLogging = 3
 }
