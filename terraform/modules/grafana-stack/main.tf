@@ -37,6 +37,11 @@ resource "docker_container" "prometheus" {
     host_path      = abspath("${path.module}/configs/prometheus.yml")
     container_path = "/etc/prometheus/prometheus.yml"
   }
+
+  ports {
+    internal = 9090
+    external = 9090
+  }
 }
 
 resource "docker_image" "grafana" {

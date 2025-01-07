@@ -57,13 +57,37 @@ resource "azurerm_network_security_group" "app_network_security_group" {
 
   security_rule {
     name                       = "SSH"
-    priority                   = 1001
+    priority                   = 100
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
     source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "App"
+    priority                   = 101
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "80"
+    source_address_prefixes    = [local.k6_private_ip, local.telemetry_private_ip]
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "NodeExporter"
+    priority                   = 102
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "9100"
+    source_address_prefix      = local.telemetry_private_ip
     destination_address_prefix = "*"
   }
 }
@@ -94,13 +118,25 @@ resource "azurerm_network_security_group" "db_network_security_group" {
 
   security_rule {
     name                       = "SSH"
-    priority                   = 1001
+    priority                   = 100
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
     source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "PostgreSQL"
+    priority                   = 101
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "5432"
+    source_address_prefix      = local.app_private_ip
     destination_address_prefix = "*"
   }
 }
@@ -131,12 +167,60 @@ resource "azurerm_network_security_group" "telemetry_network_security_group" {
 
   security_rule {
     name                       = "SSH"
-    priority                   = 1001
+    priority                   = 100
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "Elasticsearch"
+    priority                   = 101
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "9200"
+    source_address_prefix      = local.app_private_ip
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "Kibana"
+    priority                   = 102
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "5601"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "Grafana"
+    priority                   = 103
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "3000"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "Prometheus"
+    priority                   = 104
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "9090"
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
@@ -168,7 +252,7 @@ resource "azurerm_network_security_group" "k6_network_security_group" {
 
   security_rule {
     name                       = "SSH"
-    priority                   = 1001
+    priority                   = 100
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
