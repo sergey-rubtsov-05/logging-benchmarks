@@ -7,6 +7,7 @@ using LoggingBenchmark.WebApp.Features.Projects;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddLogging();
+builder.AddMetrics();
 
 builder.Services.AddOpenApi();
 
@@ -22,6 +23,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.MapPrometheusScrapingEndpoint();
 app.MapProjectsFeature();
 
 app.Run();
