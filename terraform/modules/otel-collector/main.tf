@@ -13,7 +13,7 @@ resource "docker_image" "otel_collector" {
 resource "local_file" "otel_collector_config" {
   filename = "${path.module}/configs/otel-collector-config.yml"
   content  = templatefile("${path.module}/templates/otel-collector-config.yml.tpl", {
-    name_prefix = var.name_prefix,
+    elasticsearch_endpoint = var.elasticsearch_endpoint,
   })
 }
 

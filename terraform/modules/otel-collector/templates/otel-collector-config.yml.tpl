@@ -9,7 +9,7 @@ processors:
 
 exporters:
   elasticsearch:
-    endpoint: http://${name_prefix}elasticsearch:9200
+    endpoint: ${elasticsearch_endpoint}
     logs_index: otel-logs
     tls:
       insecure_skip_verify: true

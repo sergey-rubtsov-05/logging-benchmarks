@@ -5,3 +5,7 @@ variable "network_name" {
 variable "name_prefix" {
   type = string
 }
+
+variable "elasticsearch_endpoint" {
+  type = string
+}
