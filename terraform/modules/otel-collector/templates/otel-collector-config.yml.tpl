@@ -3,6 +3,9 @@ receivers:
     include:
     - /var/log/docker/*/*.log
     include_file_path: true
+    operators:
+    - type: container
+    - type: json_parser
 
 processors:
   batch:
@@ -20,3 +23,7 @@ service:
       receivers: [filelog]
       processors: [batch]
       exporters: [elasticsearch]
+  telemetry:
+    logs:
+      level: ERROR
+      encoding: json
