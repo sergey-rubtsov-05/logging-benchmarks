@@ -1,2 +1,2 @@
-configs/grafana-datasources/prometheus.yml
+configs/grafana-provisioning/datasources/prometheus.yml
 configs/prometheus.yml
