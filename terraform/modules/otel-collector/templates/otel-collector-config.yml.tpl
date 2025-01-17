@@ -1,7 +1,7 @@
 receivers:
   filelog:
     include:
-    - /var/log/docker/*/*.log
+    - /var/log/docker/${docker_container_id_to_read_logs_from}/*.log
     include_file_path: true
     operators:
     - type: container
@@ -25,5 +25,5 @@ service:
       exporters: [elasticsearch]
   telemetry:
     logs:
-      level: ERROR
+      level: INFO
       encoding: json
