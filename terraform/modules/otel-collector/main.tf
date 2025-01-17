@@ -14,6 +14,7 @@ resource "local_file" "otel_collector_config" {
   filename = "${path.module}/configs/otel-collector-config.yml"
   content  = templatefile("${path.module}/templates/otel-collector-config.yml.tpl", {
     elasticsearch_endpoint = var.elasticsearch_endpoint,
+    docker_container_id_to_read_logs_from = var.docker_container_id_to_read_logs_from,
   })
 }
 
@@ -29,7 +30,7 @@ resource "docker_container" "otel_collector" {
   }
 
   volumes {
-    host_path      = abspath("${path.module}/configs/otel-collector-config.yml")
+    host_path      = abspath(local_file.otel_collector_config.filename)
     container_path = "/etc/otelcol-contrib/config.yaml"
   }
 

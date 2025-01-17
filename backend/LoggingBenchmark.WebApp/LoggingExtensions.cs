@@ -1,6 +1,5 @@
 using Elastic.Extensions.Logging;
 using OpenTelemetry;
-using OpenTelemetry.Logs;
 
 namespace LoggingBenchmark.WebApp;
 
@@ -14,8 +13,8 @@ public static class LoggingExtensions
 
         switch (benchmarkType)
         {
-            case BenchmarkType.OtelConsole:
-                builder.AddOtelConsoleLogging();
+            case BenchmarkType.JsonConsole:
+                builder.AddJsonConsoleLogging();
                 break;
             case BenchmarkType.ElasticsearchHttpClient:
                 builder.AddElasticsearchHttpClientLogging();
@@ -27,14 +26,13 @@ public static class LoggingExtensions
         builder.UseOtlpExporterIfAspire();
     }
 
-    private static ILoggingBuilder AddOtelConsoleLogging(this WebApplicationBuilder builder)
+    private static ILoggingBuilder AddJsonConsoleLogging(this WebApplicationBuilder builder)
     {
         return builder.Logging
-            .AddOpenTelemetry(options =>
+            .AddJsonConsole(options =>
             {
-                options.IncludeFormattedMessage = true;
                 options.IncludeScopes = true;
-                options.AddConsoleExporter();
+                options.UseUtcTimestamp = true;
             });
     }
 
@@ -55,7 +53,7 @@ public static class LoggingExtensions
 
 public enum BenchmarkType
 {
-    OtelConsole = 1,
+    JsonConsole = 1,
     ElasticsearchHttpClient = 2,
     NoLogging = 3
 }

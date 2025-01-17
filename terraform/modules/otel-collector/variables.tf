@@ -9,3 +9,7 @@ variable "name_prefix" {
 variable "elasticsearch_endpoint" {
   type = string
 }
+
+variable "docker_container_id_to_read_logs_from" {
+  type = string
+}

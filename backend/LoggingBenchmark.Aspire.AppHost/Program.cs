@@ -28,7 +28,7 @@ var webAppDb = postgres.AddDatabase(ResourceName.WebAppDb);
 
 builder.AddProject<LoggingBenchmark_WebApp>("web-app")
     .WithEnvironment("AspireRuntime", true.ToString())
-    .WithEnvironment("BenchmarkType", "OtelConsole")
+    .WithEnvironment("BenchmarkType", "JsonConsole")
     .WithEnvironment("Logging__Elasticsearch__ShipTo__NodeUris__0", elasticsearch.GetEndpoint("http"))
     .WithEnvironment("Logging__Elasticsearch__Index__Format", "web-app-{0:yyyy.MM.dd}")
     .WaitFor(webAppDb)
