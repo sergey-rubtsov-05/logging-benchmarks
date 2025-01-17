@@ -26,6 +26,7 @@ module "otel_collector" {
   network_name = module.docker_network.name
   name_prefix = local.name_prefix
   elasticsearch_endpoint = "http://telemetry:9200"
+  docker_container_id_to_read_logs_from = module.app.container_id
 }
 
 module "app" {
@@ -35,8 +36,8 @@ module "app" {
   }
   network_name = module.docker_network.name
   name_prefix = local.name_prefix
-  image = "drimdev/logging-benchmark:v0.1"
-  benchmark_type = "OtelConsole"
+  image = "drimdev/logging-benchmark:latest"
+  benchmark_type = "JsonConsole"
   elasticsearch_uri = "http://telemetry:9200"
   postgresql_connection_string = "Host=db;Port=5432;Database=web-app;Username=dbuser;Password=dbpassword"
   external_port = 80

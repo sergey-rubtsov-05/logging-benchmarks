@@ -9,6 +9,12 @@ terraform {
 resource "docker_image" "app" {
   name         = var.image
   keep_locally = true
+
+  # pull_triggers re-pulls the image whenever any of these values change.
+  # time-based value ensures a re-pull on every 'terraform apply'.
+  pull_triggers = [
+    timestamp()
+  ]
 }
 
 resource "docker_container" "app" {

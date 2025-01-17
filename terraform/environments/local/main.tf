@@ -36,6 +36,7 @@ module "otel_collector" {
   network_name = module.docker_network.name
   name_prefix = local.name_prefix
   elasticsearch_endpoint = "http://${module.elastic_stack.elasticsearch_host}:9200"
+  docker_container_id_to_read_logs_from = module.app.container_id
 }
 
 module "node-exporter" {
@@ -67,7 +68,7 @@ module "app" {
   }
   network_name = module.docker_network.name
   name_prefix = local.name_prefix
-  image = "drimdev/logging-benchmark:v0.1"
+  image = "drimdev/logging-benchmark:latest"
   benchmark_type = "JsonConsole"
   elasticsearch_uri = "http://${module.elastic_stack.elasticsearch_host}:9200"
   postgresql_connection_string = "Host=${module.postgresql.host};Port=5432;Database=web-app;Username=${module.postgresql.user};Password=${module.postgresql.password}"
