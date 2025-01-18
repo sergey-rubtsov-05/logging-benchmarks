@@ -69,7 +69,7 @@ resource "docker_image" "grafana" {
 }
 
 resource "local_file" "grafana_prometheis_datasource" {
-  filename = "${path.module}/configs/grafana-datasources/prometheus.yml"
+  filename = "${path.module}/configs/grafana-provisioning/datasources/prometheus.yml"
   content  = templatefile("${path.module}/templates/grafana-datasources.yml.tpl", {
     name_prefix = var.name_prefix,
   })
@@ -98,8 +98,13 @@ resource "docker_container" "grafana" {
   }
 
   volumes {
-    host_path      = abspath("${path.module}/configs/grafana-datasources")
-    container_path = "/etc/grafana/provisioning/datasources"
+    host_path      = abspath("${path.module}/configs/grafana-provisioning")
+    container_path = "/etc/grafana/provisioning"
+  }
+
+  volumes {
+    host_path      = abspath("${path.module}/dashboards")
+    container_path = "/var/lib/grafana/dashboards"
   }
 
   env = [
